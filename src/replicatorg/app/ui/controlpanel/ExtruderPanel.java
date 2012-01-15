@@ -193,11 +193,11 @@ public class ExtruderPanel extends JPanel implements FocusListener, ActionListen
 			// Due to current implementation issues, we need to send the PWM
 			// before the RPM for a stepper motor. Thus we display both controls in these
 			// cases. This shouldn't be necessary for a Gen4 stepper extruder. (it's not!)
-			if ((t.getMotorStepperAxis() == null) && !(t.motorHasEncoder() || t.motorIsStepper())) {
+			if ((t.getMotorStepperAxis() == null) /*&& !(t.motorHasEncoder() || t.motorIsStepper())*/ ) { // PWM_STEPPER requires the PWM dialogue.
 				// our motor speed vars
 				JLabel label = makeLabel("Motor Speed (PWM)");
 				JFormattedTextField field = new CallbackTextField(this, "handleTextField", "motor-speed-pwm", 9, Base.getLocalFormat());
-				field.setValue(Integer.toString(machine.getDriverQueryInterface().getMotorSpeedPWM()));
+				field.setValue(/*Integer.toString(*/machine.getDriverQueryInterface().getMotorSpeedPWM()/*)*/);  // This fails, as setvalue doesn't seem to expect a string.
 				add(label);
 				add(field,"wrap");
 			}
